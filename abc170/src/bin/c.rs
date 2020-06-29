@@ -12,23 +12,21 @@ fn main() {
         return;
     }
 
-    let mut counter: [i64; 101] = [0; 101];
+    let mut flag: [bool; 102] = [false; 102];
     for i in 0..n {
-        counter[p[i] as usize] += 1;
+        flag[p[i] as usize] = true;
     }
 
-    let mut ans = None;
-    for i in 0..=100 {
-        for sign in [-1, 1].iter() {
-            let val = x + sign * i as i64;
-            if 1 <= val && val <= 100 {
-                if counter[val as usize] > 0 { continue; }
-            }
-
-            ans = Some(val);
-            break;
+    let mut min_diff = 101;
+    let mut ans = x;
+    for i in 0..=101 {
+        if flag[i] { continue; }
+        let diff = (i as i64 - x).abs();
+        if diff < min_diff {
+            min_diff = diff;
+            ans = i as i64;
         }
-        if ans != None { break; }
     }
-    println!("{}", ans.unwrap());
+
+    println!("{}", ans);
 }
